@@ -20,8 +20,18 @@ module.exports = function(environment) {
     APP: {
       // Here you can pass flags/options to your application instance
       // when it is created
+    },
+
+    contentSecurityPolicy: {
+      'connect-src': "*"
     }
   };
+
+  ENV['ember-simple-auth'] = {
+    routeAfterAuthentication: 'dashboard',
+    routeIfAlreadyAuthenticated: 'dashboard'
+  };
+
 
   if (environment === 'development') {
     // ENV.APP.LOG_RESOLVER = true;
@@ -30,6 +40,7 @@ module.exports = function(environment) {
     // ENV.APP.LOG_TRANSITIONS_INTERNAL = true;
     // ENV.APP.LOG_VIEW_LOOKUPS = true;
   }
+
 
   if (environment === 'test') {
     // Testem prefers this...

@@ -13,14 +13,30 @@ class User < ApplicationRecord
 
   # == Relationships ========================================================
   has_many :activities, dependent: :destroy
-  
+
   # == Validations ==========================================================
 
   # == Scopes ===============================================================
 
   # == Callbacks ============================================================
+  before_save :ensure_authentication_token
 
   # == Class Methods ========================================================
 
   # == Instance Methods =====================================================
+  def ensure_authentication_token
+    if authentication_token.blank?
+      self.authentication_token = generate_authentication_token
+    end
+  end
+
+  private
+
+  def generate_authentication_token
+    loop do
+      token = Devise.friendly_token
+      break token unless User.where(authentication_token: token).first
+    end
+  end
+
 end
